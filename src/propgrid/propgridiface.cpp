@@ -19,6 +19,7 @@
     #include "wx/colour.h"
     #include "wx/font.h"
     #include "wx/log.h"
+    #include "wx/textctrl.h"
     #include "wx/validate.h"
 #endif
 
@@ -696,13 +697,6 @@ void wxPropertyGridInterface::SetPropertyTextColour(wxPGPropArg id, const wxColo
 }
 
 // -----------------------------------------------------------------------
-
-#if WXWIN_COMPATIBILITY_3_0
-void wxPropertyGridInterface::SetPropertyColoursToDefault(wxPGPropArg id)
-{
-    SetPropertyColoursToDefault(id, wxPGPropertyValuesFlags::DontRecurse);
-}
-#endif // WXWIN_COMPATIBILITY_3_0
 
 void wxPropertyGridInterface::SetPropertyColoursToDefault(wxPGPropArg id, wxPGPropertyValuesFlags flags)
 {

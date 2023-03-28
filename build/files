@@ -1761,6 +1761,7 @@ MSW_HDR =
     wx/msw/ctrlsub.h
     wx/msw/cursor.h
     wx/msw/custombgwin.h
+    wx/msw/darkmode.h
     wx/msw/datectrl.h
     wx/msw/datetimectrl.h
     wx/msw/dc.h
@@ -2775,6 +2776,7 @@ PROPGRID_HDR =
     wx/propgrid/propgridiface.h
     wx/propgrid/propgridpagestate.h
     wx/propgrid/props.h
+    wx/propgrid/private.h
 
 # wxRichTextCtrl
 

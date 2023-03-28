@@ -48,16 +48,6 @@ struct wxPGPaintData
 };
 
 
-// space between vertical sides of a custom image
-#define wxPG_CUSTOM_IMAGE_SPACINGY      1
-
-// space between caption and selection rectangle,
-#define wxPG_CAPRECTXMARGIN             2
-
-// horizontally and vertically
-#define wxPG_CAPRECTYMARGIN             1
-
-
 // Base class for wxPropertyGrid cell renderers.
 class WXDLLIMPEXP_PROPGRID wxPGCellRenderer : public wxObjectRefData
 {
@@ -114,11 +104,13 @@ public:
     wxDEPRECATED_MSG("Use DrawCaptionSelectionRect(wxWindow*, wxDC&, ...) instead")
     virtual void DrawCaptionSelectionRect( wxDC& dc,
                                            int x, int y,
-                                           int w, int h ) const;
-#else
+                                           int w, int h ) const
+    {
+        DrawCaptionSelectionRect(nullptr, dc, x, y, w, h);
+    }
+#endif // WXWIN_COMPATIBILITY_3_0
     virtual void DrawCaptionSelectionRect(wxWindow *win, wxDC& dc,
                                           int x, int y, int w, int h) const;
-#endif // WXWIN_COMPATIBILITY_3_0
 
     // Utility to draw vertically centered text.
     void DrawText( wxDC& dc,
@@ -533,6 +525,9 @@ constexpr wxPGPropertyFlags wxPG_PROP_MAX = wxPG_PROP_AUTO_UNSPECIFIED;
 #define wxPG_FILE_INITIAL_PATH              wxS("InitialPath")
 
 #if WXWIN_COMPATIBILITY_3_0
+#ifdef WXBUILDING
+#define wxPG_FILE_DIALOG_TITLE              wxS("DialogTitle")
+#else
 #ifdef wxPG_MUST_DEPRECATE_MACRO_NAME
 #pragma deprecated(wxPG_FILE_DIALOG_TITLE)
 #endif
@@ -540,6 +535,7 @@ constexpr wxPGPropertyFlags wxPG_PROP_MAX = wxPG_PROP_AUTO_UNSPECIFIED;
 // Sets a specific title for the dir dialog.
 #define wxPG_FILE_DIALOG_TITLE wxPG_DEPRECATED_MACRO_VALUE(wxS("DialogTitle"),\
     "wxPG_FILE_DIALOG_TITLE is deprecated. Use wxPG_DIALOG_TITLE instead.")
+#endif // WXBUILDING/!WXBUILDING
 #endif // WXWIN_COMPATIBILITY_3_0
 
 // Specific to wxFileProperty and derivatives, long, default is 0.
@@ -547,6 +543,9 @@ constexpr wxPGPropertyFlags wxPG_PROP_MAX = wxPG_PROP_AUTO_UNSPECIFIED;
 #define wxPG_FILE_DIALOG_STYLE              wxS("DialogStyle")
 
 #if WXWIN_COMPATIBILITY_3_0
+#ifdef WXBUILDING
+#define wxPG_DIR_DIALOG_MESSAGE             wxS("DialogMessage")
+#else
 #ifdef wxPG_MUST_DEPRECATE_MACRO_NAME
 #pragma deprecated(wxPG_DIR_DIALOG_MESSAGE)
 #endif
@@ -554,6 +553,7 @@ constexpr wxPGPropertyFlags wxPG_PROP_MAX = wxPG_PROP_AUTO_UNSPECIFIED;
 // Sets a specific message for the dir dialog.
 #define wxPG_DIR_DIALOG_MESSAGE wxPG_DEPRECATED_MACRO_VALUE(wxS("DialogMessage"),\
     "wxPG_DIR_DIALOG_MESSAGE is deprecated. Use wxPG_DIALOG_TITLE instead.")
+#endif // WXBUILDING/!WXBUILDING
 #endif // WXWIN_COMPATIBILITY_3_0
 
 // wxArrayStringProperty's string delimiter character. If this is

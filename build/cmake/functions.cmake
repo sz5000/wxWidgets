@@ -140,6 +140,14 @@ function(wx_set_common_target_properties target_name)
             )
         endif()
 
+        if(APPLE)
+            # Xcode automatically adds -Wshorten-64-to-32 to C++ flags
+            # and it causes a lot of warnings in wx code
+            list(APPEND common_gcc_clang_compile_options
+                -Wno-shorten-64-to-32
+            )
+        endif()
+
         if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
             list(APPEND common_gcc_clang_compile_options
                 -Wno-ignored-attributes
@@ -150,6 +158,19 @@ function(wx_set_common_target_properties target_name)
             ${common_gcc_clang_compile_options}
             $<$<COMPILE_LANGUAGE:CXX>:${common_gcc_clang_cpp_compile_options}>
         )
+    endif()
+
+    if(wxUSE_NO_RTTI)
+        if(MSVC)
+            target_compile_options(${target_name} PRIVATE "/GR-")
+        elseif(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang"))
+            target_compile_options(${target_name} PRIVATE "-fno-rtti")
+        endif()
+        target_compile_definitions(${target_name} PRIVATE "-DwxNO_RTTI")
+    endif()
+
+    if(wxBUILD_LARGEFILE_SUPPORT)
+        target_compile_definitions(${target_name} PUBLIC "-D_FILE_OFFSET_BITS=64")
     endif()
 
     if(CMAKE_USE_PTHREADS_INIT)
